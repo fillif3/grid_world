@@ -1,5 +1,5 @@
-function [action] = policy_global(currentPosition,target,value_function)
-    size=length(value_function)
+function [action] = policy_global(currentPosition,value_function)
+    size=length(value_function);
     current_score=0;
     action = [];
     for i=[-1,0,1]

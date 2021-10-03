@@ -1,22 +1,39 @@
-%clear; clc
+clear; clc
 hold on
-size=50;
-[robot,targets,fire]=createGrid(size,100,10);
-target=targets(1,:)
-constraints_values = compute_constraints(target,fire,size);
-value_function = compute_value_function(target,constraints_values,size)
+size_of_grid=50;
+number_of_targets=10;
+numbaer_of_obstacles=50;
 
+[robot,targets,fire]=createGrid(size_of_grid,numbaer_of_obstacles,number_of_targets);
+targets_constraints_values=zeros(number_of_targets,size_of_grid,size_of_grid);
+targets_value_function=zeros(number_of_targets,size_of_grid,size_of_grid);
+for i=1:number_of_targets
+    targets_constraints_values(i,:,:) = compute_constraints(targets(i,:),fire,size_of_grid);
+    targets_value_function(i,:,:) = compute_value_function(targets(i,:),reshape(targets_constraints_values(i,:,:),size_of_grid,size_of_grid),size_of_grid);
+end
 
-
-for i = 1:size
-    for j = 1:size
-        t=text(i-0.3,j,num2str(value_function(i,j),2),'Color','k');
+new_value_function=zeros(size_of_grid,size_of_grid);
+for i = 1:size_of_grid
+    for j = 1:size_of_grid
+        t=text(i-0.3,j,num2str(max(targets_value_function(:,i,j)),2),'Color','k');
         t.FontSize=8;
     end
 end
-
-[traj_x,traj_y] = getTrajectoryGlobal(robot,target,50,value_function);
-plot(traj_x,traj_y,'b-*')
-plot(target(1),target(2),'g*')
+helper_targets=targets
+for steps=1:number_of_targets
+    for i = 1:size_of_grid
+        for j = 1:size_of_grid
+            new_value_function(i,j)=max(targets_value_function(:,i,j));
+        end
+    end
+    [traj_x,traj_y,target] = getTrajectoryGlobal(robot,helper_targets,50,new_value_function);
+    targets_value_function(target,:,:)=[];
+    helper_targets(target,:)=[];
+    plot(traj_x,traj_y,'b-*')
+    robot(1)=traj_x(end);
+    robot(2)=traj_y(end);
+end
+plot(targets(:,1),targets(:,2),'g*')
 plot(fire(:,1),fire(:,2),'r*')
+
 

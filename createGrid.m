@@ -21,10 +21,15 @@ targets=zeros(number_of_targets,2);
 j=1;
 while targets(number_of_targets,2)==0
     target = randi(size,1,2);
+    flag=1;
     for i =1:number_of_obstacles
-        if obstacles(i,:)~=target
-            targets(j,:) = target;
-            j=j+1
+        if obstacles(i,:)==target
+            flag=0;
+            break
         end
+    end
+    if flag
+        targets(j,:) = target;
+        j=j+1;
     end
 end
