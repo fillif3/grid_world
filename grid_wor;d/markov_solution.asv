@@ -6,8 +6,8 @@ helper_targets=targets;
 starting_position=robot;
 for steps=1:number_of_targets
     q_value_function = markov_value_function(helper_targets,fire,size_of_grid,prob);
-    %var(:,:,steps) = value_function;
-    [traj_x,traj_y,target] = getTrajectoryGlobal(starting_position,helper_targets,size_of_grid,q_value_function);
+    #var(:,:,steps) = value_function;
+    [traj_x,traj_y,target] = getTrajectoryGlobal(starting_position,helper_targets,size_of_grid,value_function);
     helper_targets(target,:)=[];
     plot(traj_x,traj_y,'b-*')
     plot(targets(:,1),targets(:,2),'g*')

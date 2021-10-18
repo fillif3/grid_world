@@ -1,4 +1,4 @@
-function value_function=markov_value_function(targets,fire,grid_size,main_action_probability)
+function final_value_funcution=markov_value_function(targets,fire,grid_size,main_action_probability)
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
 value_function = zeros(grid_size,grid_size,8);
@@ -34,15 +34,14 @@ for steps=1:(ceil(grid_size)*6)
                 score_next = max(value_function(max(min(grid_size,i+a_next(1)),1),max(min(grid_size,j+a_next(2)),1),:));
                 score_current = max(value_function(max(min(grid_size,i+a_current(1)),1),max(min(grid_size,j+a_current(2)),1),:));
                 val = score_current*main_action_probability+(score_next+score_pre)*close_actions_probability;
-
-                %if (score_pre<0 ||score_current<0 ||score_next<0) && steps>100 
+                %if val~=0
                 %    asd=2
                 %end
                 action_index=a-1;
                 if action_index==0
                     action_index=8;
                 end
-                value_function_helper(i,j,action_index)=value_function(i,j,action_index)+learning_rate*(reward*(sum(abs(a_current)))+discount*val-value_function(i,j,action_index));
+                value_function_helper(i,j,action_index)=value_function(i,j,action_index)+learning_rate*(reward*sum(abs(a_current))+discount*val-value_function(i,j,action_index));
                 a_pre=a_current;
                 a_current=a_next;
             end
@@ -57,6 +56,11 @@ for steps=1:(ceil(grid_size)*6)
     end
 end
 
-
+final_value_funcution=zeros(grid_size,grid_size);
+for i=1:grid_size
+    for j=1:grid_size
+            final_value_funcution(i,j)= max(value_function(i,j,:));
+    end
+end
 
 end
