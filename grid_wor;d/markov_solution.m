@@ -10,8 +10,6 @@ for steps=1:number_of_targets
     [traj_x,traj_y,target] = getTrajectoryGlobal(starting_position,helper_targets,size_of_grid,q_value_function);
     helper_targets(target,:)=[];
     plot(traj_x,traj_y,'b-*')
-    plot(targets(:,1),targets(:,2),'g*')
-    plot(fire(:,1),fire(:,2),'r*')
     starting_position(1)=traj_x(end);
     starting_position(2)=traj_y(end);
 end
