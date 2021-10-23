@@ -29,6 +29,8 @@ while 1
     starting_position(2)=traj_y(end);
     if mod(steps,15)==0
         plot(traj_x,traj_y,'b-*');
+        plot(targets(:,1),targets(:,2),'g*')
+        plot(fire(:,1),fire(:,2),'r*')
 
     end
     steps=steps+1;

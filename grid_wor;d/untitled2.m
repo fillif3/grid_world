@@ -1,21 +1,2 @@
-rng('default')
-val = inf;
-final_x=[];
-xs=zeros(289,10);
-fvals=[];
-for i=1:1
-    starting_points = rand(145+144,1)*pi-pi/2;
-    options = optimoptions(@fminunc,'Algorithm','quasi-newton',...
-        'MaxIterations',1000,'MaxFunctionEvaluations',10^6);
-    [x,fval,exitflag,output] = fminunc(@func_6,starting_points,options);
-    fvals(end+1)=fval;
-    xs(:,i)=x;
-    if fval<val
-        val=fval;
-        final_x=x;
-    end
-end
-z1 = final_x(1:145);
-z2 = final_x(146:289);
-u = sin(z1)/2+0.5;
-v = sin(z2)/2+0.5;
+a=[1,2,3;1,3,5]
+b=ismember([1,2],a(:,1:2),'rows')

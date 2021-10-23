@@ -15,7 +15,7 @@ if strcmp(type_of_solution,'markov')
     var=markov_solution(robot,targets,fire,number_of_targets,size_of_grid,0.8);
 end
 if strcmp(type_of_solution,'MPC')
-    var=mpc_solution(robot,targets,fire,size_of_grid,1,5);
+    var=mpc_solution(robot,targets,fire,size_of_grid,0.8,5);
 end
 plot(targets(:,1),targets(:,2),'g*')
 plot(fire(:,1),fire(:,2),'r*')
