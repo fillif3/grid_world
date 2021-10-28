@@ -1,15 +1,20 @@
-u=0:0.02:1
-state=1:2:400
-
-x=[]
-y=[]
-z=[]
-for i=u
-    for j=10000:10000
-        x(end+1)=i;
-        y(end+1)=j;
-        z(end+1)= func(i,j,12+273);
+rng('default')
+val = inf;
+final_x=[];
+xs=zeros(289,10);
+fvals=[];
+for i=1:1
+    starting_points = rand(145+144,1)*pi-pi/2;
+    options = optimoptions(@fminunc,'Algorithm','quasi-newton');
+    [x,fval,exitflag,output] = fminunc(@func,starting_points,options);
+    fvals(end+1)=fval;
+    xs(:,i)=x;
+    if fval<val
+        val=fval;
+        final_x=x;
     end
 end
-%plot3(x,y,z,'*')
-plot(x,z)
+z1 = final_x(1:145);
+z2 = final_x(146:289);
+u = sin(z1)/2+0.5;
+v = sin(z2)/2+0.5;
