@@ -3,7 +3,14 @@ function value_function=markov_value_function(targets,fire,grid_size,main_action
 %   Detailed explanation goes here
 value_function = zeros(grid_size,grid_size,8);
 learning_rate=0.1;
-reward=-1;
+rewards = ones(grid_size);
+target_size=size(targets);
+for i=1:target_size(1)
+
+    rewards=min(compute_constraints(targets(i,:),fire,grid_size),rewards);
+end
+rewards=rewards.^2;
+rewards=(rewards-1.1)*10;
 discount=0.95;
 close_actions_probability = (1-main_action_probability)/2;
 number_of_targets = size(targets);
@@ -42,7 +49,7 @@ for steps=1:(ceil(grid_size)*6)
                 if action_index==0
                     action_index=8;
                 end
-                value_function_helper(i,j,action_index)=value_function(i,j,action_index)+learning_rate*(reward*(sum(abs(a_current)))+discount*val-value_function(i,j,action_index));
+                value_function_helper(i,j,action_index)=value_function(i,j,action_index)+learning_rate*(rewards(i,j)*(sum(abs(a_current)))+discount*val-value_function(i,j,action_index));
                 a_pre=a_current;
                 a_current=a_next;
             end

@@ -1,4 +1,4 @@
-function var=mpc_solution(robot,targets,fire,size_of_grid,prob,horizon)
+function var=mpc_solution(robot,targets,fire,size_of_grid,prob,horizon,color)
 var=zeros(size_of_grid,size_of_grid,8);
 helper_targets=targets;
 starting_position=robot;
@@ -28,13 +28,13 @@ while 1
     starting_position(1)=traj_x(end);
     starting_position(2)=traj_y(end);
     if mod(steps,1)==0
-        plot(traj_x,traj_y,'b-*');
+        plot(traj_x,traj_y,color');
         plot(targets(:,1),targets(:,2),'g*')
         plot(fire(:,1),fire(:,2),'r*')
 
     end
     steps=steps+1;
 end
-plot(traj_x,traj_y,'b-*')
+plot(traj_x,traj_y,color)
 var=[traj_x;traj_y]
 end
